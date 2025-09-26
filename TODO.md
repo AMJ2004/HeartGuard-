@@ -1,0 +1,5 @@
+- [x] Create virtual environment in heart/ directory
+- [x] Activate the virtual environment
+- [x] Install dependencies from requirements.txt
+- [x] Run the Flask application (python app.py)
+- [x] Open the application in browser at localhost:5000

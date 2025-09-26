@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}AI Nutrition Plans - HeartGuard+{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container" style="max-width: 980px;">
+    <h2 class="fw-bold mb-2" style="padding-top: 10px;">🍎 AI-Powered Nutrition for Heart Health</h2>
+    <p class="text-muted">Advanced nutrition science meets artificial intelligence. Get personalized meal plans that optimize your heart health based on your unique profile.</p>
+    <div class="alert alert-success border-0 bg-light mb-4">
+      <strong>🧠 Smart Nutrition:</strong> Our AI analyzes your health data to recommend the perfect foods for your heart.
+    </div>
+    <hr>
+    <div class="row gy-4 align-items-start">
+      <div class="col-lg-7">
+        <h4 class="mt-2">Best heart-friendly foods to eat</h4>
+        <ul>
+          <li>Lots of fruits and vegetables</li>
+          <li>Lean meats and skinless poultry</li>
+          <li>Nuts, beans, and legumes</li>
+          <li>Fish, especially oily fish rich in omega-3s</li>
+          <li>Whole grains</li>
+          <li>Plant-based oils (e.g., olive oil)</li>
+          <li>Low-fat dairy products</li>
+          <li>Eggs (up to six per week)</li>
+        </ul>
+        <p>As a rule of thumb, fill half your plate with a variety of vegetables at every meal.</p>
+        <p>Have at least two servings of oily fish per week: salmon, sardines, trout, herring, or mackerel.</p>
+        <p>Prefer water for hydration. For flavor, infuse with lemon, cucumber, or berries.</p>
+      </div>
+      <div class="col-lg-5 text-center">
+        <img src="{{ url_for('static', filename='pics/heartdiet.jpg') }}" class="img-fluid rounded-4 shadow center" alt="heart diet">
+      </div>
+    </div>
+
+    <hr class="my-5">
+
+    <h4>Foods to Avoid</h4>
+    <p>Limit excess sugar, salt, and unhealthy fats—especially after a cardiac event.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <ul>
+          <li>Fast and fried foods</li>
+          <li>Highly processed boxed meals</li>
+          <li>Canned foods with added salt</li>
+          <li>Candy, chips, cookies, cakes</li>
+          <li>Ice cream</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <ul>
+          <li>Condiments high in sugar/salt (e.g., mayonnaise, ketchup)</li>
+          <li>Red meat (enjoy sparingly)</li>
+          <li>Alcohol</li>
+          <li>Hydrogenated oils (trans fats)</li>
+          <li>Deli meats, pizza, burgers, and hot dogs</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert alert-light border mt-3" role="alert">
+      <ul class="mb-0">
+        <li>Saturated fat ≤ 6% of total daily calories, especially if cholesterol is high.</li>
+        <li>Sodium ≤ 1500 mg/day to help manage blood pressure.</li>
+        <li>Enjoy coffee/tea in moderation without added cream or sugar.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

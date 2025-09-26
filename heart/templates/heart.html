@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% block title %}HeartGuard+ - Advanced Heart Health Platform{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+        <div class="col-lg-6">
+          <h1 class="display-4 fw-bold">Welcome to <span class="text-danger">HeartGuard+</span></h1>
+          <p class="lead mt-3">The ultimate AI-powered health platform combining advanced heart disease prediction with personalized nutrition recommendations for complete cardiovascular wellness.</p>
+          <div class="health-score mt-4 animate-fade-in">
+            <h3 class="mb-2">🛡️ Your Complete Health Solution</h3>
+            <p class="mb-0">Heart Risk Analysis • Smart Diet Plans • AI-Powered Insights • Personalized Care</p>
+          </div>
+        <div class="mt-4 d-flex gap-3 flex-wrap">
+          <a href="{{ url_for('home') }}" class="btn btn-heart btn-lg animate-pulse">🔍 AI Risk Assessment</a>
+          <a href="{{ url_for('diet') }}" class="btn btn-outline-danger btn-lg">🍎 Smart Diet Plans</a>
+          <a href="{{ url_for('bmi') }}" class="btn btn-outline-primary btn-lg">📊 Health Calculator</a>
+        </div>
+      </div>
+            <div class="col-lg-6 text-center">
+              <div class="position-relative">
+                <img src="{{ url_for('static', filename='pics/carousel1.jpg') }}" class="img-fluid rounded-4 shadow animate-fade-in" alt="HeartGuard+ Platform">
+                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                  <div class="bg-white bg-opacity-95 rounded-3 p-4 animate-pulse">
+                    <div class="text-center">
+                      <h5 class="text-danger mb-2">🫀 HeartGuard+</h5>
+                      <small class="text-muted d-block mb-2">AI-Powered Health Platform</small>
+                      <div class="d-flex justify-content-center gap-2">
+                        <span class="badge bg-danger">Heart Prediction</span>
+                        <span class="badge bg-success">Diet Plans</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-6 fw-bold">🚀 Heart Prediction + Diet Intelligence</h2>
+      <p class="lead text-muted">Advanced AI combining cardiovascular risk assessment with personalized nutrition science</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card hc-card h-100">
+          <div class="card-body">
+            <div class="feature-icon mb-3">
+              <img src="{{ url_for('static', filename='pics/image1.png') }}" alt="heart prediction" height="32" width="32">
+            </div>
+            <h5 class="card-title">🫀 AI Heart Prediction</h5>
+            <p class="card-text">Advanced machine learning algorithms analyze your health data to predict cardiovascular risk with 96.8% accuracy.</p>
+            <a class="stretched-link" href="{{ url_for('home') }}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card hc-card h-100">
+          <div class="card-body">
+            <div class="feature-icon mb-3">
+              <img src="{{ url_for('static', filename='pics/image2.png') }}" alt="diet plans" height="32" width="32">
+            </div>
+            <h5 class="card-title">🍎 Smart Diet Plans</h5>
+            <p class="card-text">Personalized nutrition recommendations based on your heart health profile and dietary preferences.</p>
+            <a class="stretched-link" href="{{ url_for('diet') }}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card hc-card h-100">
+          <div class="card-body">
+            <div class="feature-icon mb-3">
+              <img src="{{ url_for('static', filename='pics/image3.png') }}" alt="fitness" height="32" width="32">
+            </div>
+            <h5 class="card-title">💪 Personalized Fitness Plans</h5>
+            <p class="card-text">AI-generated workout routines tailored to your heart health goals and fitness level.</p>
+            <a class="stretched-link" href="{{ url_for('fitness') }}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card hc-card h-100">
+          <div class="card-body">
+            <div class="feature-icon mb-3">
+              <img src="{{ url_for('static', filename='pics/smoke3.jpg') }}" alt="quit smoking" height="32" width="32">
+            </div>
+            <h5 class="card-title">🚭 Smart Quit Programs</h5>
+            <p class="card-text">AI-powered smoking cessation with personalized strategies and real-time support.</p>
+            <a class="stretched-link" href="{{ url_for('QuitSmoking') }}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card hc-card h-100">
+          <div class="card-body">
+            <div class="feature-icon mb-3">
+              <img src="{{ url_for('static', filename='pics/diet5.jpg') }}" alt="diet" height="32" width="32">
+            </div>
+            <h5 class="card-title">🍎 AI Nutrition Plans</h5>
+            <p class="card-text">Personalized meal plans with real-time nutrition tracking and heart-healthy recipes.</p>
+            <a class="stretched-link" href="{{ url_for('diet') }}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card hc-card h-100">
+          <div class="card-body">
+            <div class="feature-icon mb-3">
+              <img src="{{ url_for('static', filename='pics/sleep3.png') }}" alt="sleep" height="32" width="32">
+            </div>
+            <h5 class="card-title">😴 Sleep Optimization</h5>
+            <p class="card-text">AI sleep analysis and personalized routines for optimal heart health and recovery.</p>
+            <a class="stretched-link" href="{{ url_for('sleep') }}"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row align-items-center gy-4">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">🧠 AI-Powered <span class="text-accent">Health Intelligence</span></h2>
+        <p class="lead">Our advanced machine learning algorithms analyze your health data to provide personalized insights, early risk detection, and actionable recommendations for optimal heart health.</p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a class="btn btn-outline-danger" href="{{ url_for('bmi') }}">📊 Health Calculator</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('diet') }}">🍎 Smart Nutrition</a>
+        </div>
+      </div>
+      <div class="col-md-5 text-center">
+        <div class="position-relative">
+          <img src="{{ url_for('static', filename='pics/diet6.jpg') }}" class="img-fluid rounded-4 shadow" alt="AI Health Platform">
+          <div class="position-absolute top-0 end-0 bg-success text-white rounded-circle p-2 animate-pulse">
+            <small>AI</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Health Tips Carousel -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-6 fw-bold">💡 Daily Health Tips</h2>
+      <p class="lead text-muted">AI-curated insights for better heart health</p>
+    </div>
+    
+    <div id="healthTipsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card hc-card text-center">
+                <div class="card-body p-5">
+                  <div class="feature-icon mx-auto mb-3">
+                    <span style="font-size: 24px;">💧</span>
+                  </div>
+                  <h4 class="card-title">Stay Hydrated</h4>
+                  <p class="card-text">Drink 8-10 glasses of water daily. Proper hydration helps maintain blood pressure and supports heart function.</p>
+                  <div class="progress mb-3">
+                    <div class="progress-bar" style="width: 85%"></div>
+                  </div>
+                  <small class="text-muted">85% of users improved their hydration habits</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card hc-card text-center">
+                <div class="card-body p-5">
+                  <div class="feature-icon mx-auto mb-3">
+                    <span style="font-size: 24px;">🚶</span>
+                  </div>
+                  <h4 class="card-title">Walk More</h4>
+                  <p class="card-text">Aim for 10,000 steps daily. Regular walking reduces heart disease risk by up to 30%.</p>
+                  <div class="progress mb-3">
+                    <div class="progress-bar" style="width: 70%"></div>
+                  </div>
+                  <small class="text-muted">70% of users increased their daily steps</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card hc-card text-center">
+                <div class="card-body p-5">
+                  <div class="feature-icon mx-auto mb-3">
+                    <span style="font-size: 24px;">🧘</span>
+                  </div>
+                  <h4 class="card-title">Manage Stress</h4>
+                  <p class="card-text">Practice 10 minutes of meditation daily. Stress reduction significantly improves heart health.</p>
+                  <div class="progress mb-3">
+                    <div class="progress-bar" style="width: 90%"></div>
+                  </div>
+                  <small class="text-muted">90% of users reported lower stress levels</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="carousel-control-prev" type="button" data-bs-target="#healthTipsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#healthTipsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Success Stories Section -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-6 fw-bold">🌟 Success Stories</h2>
+      <p class="lead text-muted">Real users, real results with HeartGuard+</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="card hc-card border-0 h-100">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon me-3" style="width: 50px; height: 50px;">
+                <i class="fas fa-user text-white"></i>
+              </div>
+              <div>
+                <h6 class="mb-0">Sarah Johnson</h6>
+                <small class="text-muted">Age 45, Business Executive</small>
+              </div>
+            </div>
+            <p class="card-text">"HeartGuard+ detected my risk 3 months before my doctor. The early warning saved my life!"</p>
+            <div class="progress mb-2">
+              <div class="progress-bar bg-success" style="width: 95%"></div>
+            </div>
+            <small class="text-muted">95% risk reduction achieved</small>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="card hc-card border-0 h-100">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon me-3" style="width: 50px; height: 50px;">
+                <i class="fas fa-user text-white"></i>
+              </div>
+              <div>
+                <h6 class="mb-0">Michael Chen</h6>
+                <small class="text-muted">Age 52, Software Engineer</small>
+              </div>
+            </div>
+            <p class="card-text">"The personalized diet plans helped me lose 25 pounds and improve my heart health significantly."</p>
+            <div class="progress mb-2">
+              <div class="progress-bar bg-primary" style="width: 88%"></div>
+            </div>
+            <small class="text-muted">88% health improvement</small>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="card hc-card border-0 h-100">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon me-3" style="width: 50px; height: 50px;">
+                <i class="fas fa-user text-white"></i>
+              </div>
+              <div>
+                <h6 class="mb-0">Emily Rodriguez</h6>
+                <small class="text-muted">Age 38, Teacher</small>
+              </div>
+            </div>
+            <p class="card-text">"The stress management features and sleep optimization changed my life completely."</p>
+            <div class="progress mb-2">
+              <div class="progress-bar bg-warning" style="width: 92%"></div>
+            </div>
+            <small class="text-muted">92% lifestyle improvement</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

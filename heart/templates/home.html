@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %}AI Risk Assessment - HeartGuard+{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container" style="max-width: 880px;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">🔍 AI-Powered Heart Risk Assessment</h2>
+      <p class="text-muted">Advanced machine learning analysis of your health data. Enter values from your recent health report for instant risk evaluation.</p>
+      <div class="alert alert-info border-0 bg-light">
+        <i class="fas fa-robot me-2"></i>
+        <strong>Powered by AI:</strong> Our algorithms analyze 10+ health factors to provide accurate risk predictions.
+      </div>
+    </div>
+
+    {% set auto_bmi = request.args.get('bmi') or prefill_bmi %}
+    {% set auto_age = request.args.get('age') or prefill_age %}
+    {% set auto_gender = request.args.get('gender') or prefill_gender %}
+
+    <div class="card hc-card">
+      <div class="card-body p-4 p-md-5">
+        <form action="{{ url_for('result') }}" method="post" onsubmit="return checkforblank()">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label for="sysBP" class="form-label">Systolic Blood Pressure (mmHg) *</label>
+              <input type="text" class="form-control" id="sysBP" name="sysBP" placeholder="90 - 200">
+            </div>
+            <div class="col-md-6">
+              <label for="diaBP" class="form-label">Diastolic Blood Pressure (mmHg) *</label>
+              <input type="text" class="form-control" id="diaBP" name="diaBP" placeholder="60 - 140">
+            </div>
+
+            <div class="col-md-6">
+              <label for="glucose" class="form-label">Glucose (mg/dL) *</label>
+              <input type="text" class="form-control" id="glucose" name="glucose" placeholder="70 - 350">
+            </div>
+            <div class="col-md-6">
+              <label for="age" class="form-label">Age *</label>
+              <input type="text" class="form-control" id="age" name="age" placeholder="30 - 75" value="{{ request.args.get('age', prefill_age or '') }}">
+            </div>
+
+            <div class="col-md-6">
+              <label for="bmi" class="form-label">BMI *</label>
+              <input type="text" class="form-control" id="bmi" name="bmi" placeholder="Body Mass Index" value="{{ (request.args.get('bmi') or prefill_bmi)|round(2) if (request.args.get('bmi') or prefill_bmi) else '' }}">
+              <small class="text-muted">Don’t know your BMI? Calculate <a href="{{ url_for('bmi') }}">here</a>.</small>
+            </div>
+            <div class="col-md-6">
+              <label for="totChol" class="form-label">Total Cholesterol (mg/dL) *</label>
+              <input type="text" class="form-control" id="totChol" name="totChol" placeholder="130 - 300">
+            </div>
+
+            <div class="col-md-6">
+              <label for="prevalentHyp" class="form-label">Prevalent Hypertension *</label>
+              <select class="form-select" id="prevalentHyp" name="prevalentHyp">
+                <option value="">Choose...</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="male" class="form-label">Gender *</nlabel>
+              <select class="form-select" id="male" name="male">
+                <option value="">Choose...</option>
+                <option value="1" {% if (request.args.get('gender') or prefill_gender) == 'female' %}selected{% endif %}>Female</option>
+                <option value="0" {% if (request.args.get('gender') or prefill_gender) == 'male' %}selected{% endif %}>Male</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="BPMeds" class="form-label">BP Medication *</label>
+              <select class="form-select" id="BPMeds" name="BPMeds">
+                <option value="">Choose...</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="diabetes" class="form-label">Diabetes *</label>
+              <select class="form-select" id="diabetes" name="diabetes">
+                <option value="">Choose...</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-heart btn-lg">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% block scripts %}
+<script>
+  function checkforblank(){
+    var ids = ['sysBP','diaBP','glucose','age','totChol','bmi','prevalentHyp','male','BPMeds','diabetes'];
+    var names = {
+      'sysBP':'systolic BP', 'diaBP':'diastolic BP', 'glucose':'glucose', 'age':'age', 'totChol':'total cholesterol', 'bmi':'BMI',
+      'prevalentHyp':'hypertension', 'male':'gender', 'BPMeds':'BP meds', 'diabetes':'diabetes'
+    };
+    var errors = [];
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      var val = el.value.trim();
+      if(val === '' || val === 'Choose...' || val === 'Choose here'){
+        errors.push('Please enter/select ' + names[id]);
+        el.style.borderColor = 'red';
+      } else {
+        el.style.borderColor = '#ced4da';
+      }
+    });
+    if(errors.length){
+      alert(errors.join('\n'));
+      return false;
+    }
+    return true;
+  }
+</script>
+{% endblock %}
+{% endblock %}
