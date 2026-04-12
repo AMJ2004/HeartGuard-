@@ -64,7 +64,7 @@ def bmi():
 def result():
     try:
         age = int(request.form.get("age", 0))
-        gender = int(request.form.get("male", 1))  # male field
+        gender = int(request.form.get("gender", 1))
         sysBP = float(request.form.get("sysBP", 0))
         diaBP = float(request.form.get("diaBP", 0))
         glucose = float(request.form.get("glucose", 0))
@@ -85,12 +85,14 @@ def result():
 
         # MODEL INPUT EXACT ORDER
         data = np.array([[age, gender, sysBP, diaBP, glucose, totChol, bmi]])
-        print(f"Model input: {data}")
+        print("BMI:", bmi)
+        print("Model input:", data)
 
         if model:
             prediction = int(model.predict(data)[0])
         else:
             prediction = 0
+        print("Prediction:", prediction)
 
         # Store ALL for diet
         session["age"] = age
@@ -120,7 +122,7 @@ def diet():
     bmi = session.get("bmi", 25.0)
     return render_template("diet.html", bmi=bmi)
 
-@app.route("/diet_results", methods=["GET", "POST"])
+@app.route("/diet-results", methods=["GET", "POST"])
 def diet_results():
     try:
         bmi = float(session.get("bmi", 25.0))
