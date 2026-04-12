@@ -57,12 +57,13 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label for="male" class="form-label">Gender *</nlabel>
-              <select class="form-select" id="male" name="male">
+              <label for="gender" class="form-label fw-bold">Gender *</label>
+              <select class="form-select" id="gender" name="male">
                 <option value="">Choose...</option>
-                <option value="1" {% if (request.args.get('gender') or prefill_gender) == 'female' %}selected{% endif %}>Female</option>
-                <option value="0" {% if (request.args.get('gender') or prefill_gender) == 'male' %}selected{% endif %}>Male</option>
+                <option value="0">Female</option>
+                <option value="1" selected>Male</option>
               </select>
+              <small class="form-text text-muted">Male=1, Female=0 (as per model encoding)</small>
             </div>
 
             <div class="col-md-6">

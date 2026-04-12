@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Result</title>
-    <link rel="icon" href="{{url_for('static',filename='pics/logo.png')}}" type="image/png" sizes="80x80px">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/png" sizes="80x80px">
     <style>
       body,
         html {
@@ -123,7 +123,7 @@
 -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-        <img src="{{url_for('static',filename='pics/logo2.jpg')}}" height="35px" width="35px">
+        <img src="{{ url_for('static', filename='images/logo2.jpg') }}" height="35px" width="35px">
       <a class="navbar-brand" href="#">Heart Care</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -175,13 +175,13 @@
      <div align="left" style='padding-left:30px'>
         <div class="rect1"  >
             <br>
-            <h5><pre>Age                              {{age}}</pre></h5>
-            <h5><pre>Gender                         {{gender}}</pre></h5>
-            <h5><pre>Bmi                            {{bmi}}</pre></h5>
-            <h5><pre>Systolic Blood Pressure        {{sysBP}}</pre></h5>
-            <h5><pre>Diastolic Blood Pressure       {{diaBP}}</pre></h5>
-            <h5><pre>Glucose                        {{glucose}}</pre></h5>
-            <h5><pre>Total Cholestrol               {{totCHol}}</pre></h5>
+    <h5><pre>Age                              {{ age }}</pre></h5>
+    <h5><pre>Gender                         {{ gender_str }}</pre></h5>
+    <h5><pre>BMI                            {{ bmi|round(2) }}</pre></h5>
+    <h5><pre>Systolic Blood Pressure        {{ sysBP }}</pre></h5>
+    <h5><pre>Diastolic Blood Pressure       {{ diaBP }}</pre></h5>
+    <h5><pre>Glucose                        {{ glucose }}</pre></h5>
+    <h5><pre>Total Cholesterol              {{ totChol }}</pre></h5>
             <h5><pre>Prevalent Hypertension           {{p}}</pre></h5>
             <h5><pre>BP Medication                    {{b}}</pre></h5>
             <h5><pre>Diabetes                         {{d}}</pre></h5>

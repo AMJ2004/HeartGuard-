@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <title>Heart Disease Detected</title>
-  <link rel="icon" href="{{url_for('static',filename='pics/logo.png')}}" type="image/png" sizes="80x80px">
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/png" sizes="80x80px">
 </head>
 <body class="bg-light" style="overflow-y:auto;">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -26,9 +26,9 @@
         <div class="row">
           <div class="col-md-6">
             <ul class="list-unstyled">
-              <li><strong>Age:</strong> {{age}}</li>
-              <li><strong>Gender:</strong> {{gender}}</li>
-              <li><strong>BMI:</strong> {{bmi}}</li>
+              <li><strong>Age:</strong> {{ age }}</li>
+              <li><strong>Gender:</strong> {{ gender }}</li>
+              <li><strong>BMI:</strong> {{ bmi|round(2) }}</li>
               <li><strong>Systolic BP:</strong> {{sysBP}}</li>
               <li><strong>Diastolic BP:</strong> {{diaBP}}</li>
             </ul>
