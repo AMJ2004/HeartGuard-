@@ -89,6 +89,16 @@ def result():
         bmi = float(session.get("bmi", request.form.get("bmi", 0)))
         totChol = float(request.form.get("totChol", 200))
         diaBP = float(request.form.get("diaBP", 80))
+        gender = request.form.get("gender", "male")  # Assume field exists
+        
+        # Set session for diet
+        session["age"] = age
+        session["bmi"] = bmi
+        session["gender"] = gender
+        session["glucose"] = glucose
+        session["sysBP"] = sysBP
+        session["diaBP"] = diaBP
+        session["totChol"] = totChol
         
         data = np.array([[age, totChol, glucose, bmi, diaBP, sysBP, 0, 0, 1, 0]])
         
@@ -103,11 +113,40 @@ def result():
     except Exception as e:
         return f"Error: {str(e)}"
 
-@app.route("/diet_results", methods=["POST"])
+@app.route("/diet_results", methods=["GET", "POST"])
 def diet_results():
-    preferences = request.form.get("preferences", "general")
-    diet_plan = get_diet_plan(preferences)
-    return render_template("diet_results.html", plan=diet_plan)
+    try:
+        age = session.get("age", 50)
+        bmi = session.get("bmi", 25.0)
+        gender = session.get("gender", "male")
+        
+        # Generate personalized diet
+        diet_plan = generate_diet_plan(age, bmi, gender)
+        
+        # Generate recipes
+        recipes = generate_recipes(diet_plan)
+        
+        return render_template("diet_results.html",
+                               diet=diet_plan,
+                               recipes=recipes)
+    except Exception as e:
+        return f"Diet Error: {str(e)}"
+
+def generate_diet_plan(age, bmi, gender):
+    if bmi < 18.5:
+        return "High calorie diet with protein-rich foods for underweight"
+    elif bmi < 25:
+        return "Balanced diet with fruits and vegetables"
+    else:
+        return "Low calorie diet with low fat and sugar"
+
+def generate_recipes(diet):
+    if "High calorie" in diet:
+        return ["Banana shake", "Peanut butter toast", "Avocado smoothie"]
+    elif "Balanced" in diet:
+        return ["Salad bowl", "Grilled vegetables", "Quinoa bowl"]
+    else:
+        return ["Oats porridge", "Boiled vegetables", "Lentil soup"]
 
 @app.route("/diet-preferences")
 def diet_preferences():

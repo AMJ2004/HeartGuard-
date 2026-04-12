@@ -8,6 +8,11 @@
     <div class="alert alert-success border-0 bg-light mb-4">
       <strong>🧠 Smart Nutrition:</strong> Our AI analyzes your health data to recommend the perfect foods for your heart.
     </div>
+    <div class="text-center mb-4">
+      <form action="{{ url_for('diet_results') }}" method="POST">
+        <button type="submit" class="btn btn-heart btn-lg px-5">Generate My Personalized Diet Plan & Recipes</button>
+      </form>
+    </div>
     <hr>
     <div class="row gy-4 align-items-start">
       <div class="col-lg-7">
