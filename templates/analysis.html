@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+<title>Heart Risk Analysis</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="container">
+<h1>Heart Risk Analysis</h1>
+<h2>Prediction: {{ 'HIGH RISK' if prediction == 1 else 'LOW RISK' }}</h2>
+<p>BMI: {{ bmi }}</p>
+<a href="{{ url_for('diet_preferences') }}">Get Diet Plan</a>
+</div>
+</body>
+</html>

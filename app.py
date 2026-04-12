@@ -103,8 +103,7 @@ def result():
         session["risk"] = prediction
 
         # Render result
-        template = "heartdisease_detected.html" if prediction == 1 else "nodisease.html"
-        return render_template(template, 
+        return render_template("analysis.html", 
                              prediction=prediction, age=age, gender="Male" if gender==1 else "Female",
                              bmi=bmi, sysBP=sysBP, diaBP=diaBP, glucose=glucose, totChol=totChol)
 

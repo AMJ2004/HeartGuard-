@@ -39,9 +39,9 @@
             </div>
 
             <div class="col-md-6">
-              <label for="bmi" class="form-label">BMI *</label>
-              <input type="text" class="form-control" id="bmi" name="bmi" placeholder="Body Mass Index" value="{{ (request.args.get('bmi') or prefill_bmi)|round(2) if (request.args.get('bmi') or prefill_bmi) else '' }}">
-              <small class="text-muted">Don’t know your BMI? Calculate <a href="{{ url_for('bmi') }}">here</a>.</small>
+              <label class="form-label">BMI (auto-filled)</label>
+              <input type="text" class="form-control" value="{{ session.bmi|round(2) if session.bmi else 'Calculate BMI first' }}" readonly>
+              <small class="text-muted">Calculate <a href="{{ url_for('bmi') }}">BMI</a> first if not set.</small>
             </div>
             <div class="col-md-6">
               <label for="totChol" class="form-label">Total Cholesterol (mg/dL) *</label>
