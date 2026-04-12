@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import numpy as np
 import pickle
+import traceback
 import os
 
 app = Flask(__name__)
@@ -19,11 +20,25 @@ def load_model():
 
 model = load_model()
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return f"""
+    <h1>Debug Info - 500 Error</h1>
+    <pre style='background:#f4f4f4;padding:20px;border-radius:8px;overflow:auto;white-space:pre-wrap;'>
+{traceback.format_exc()}
+    </pre>
+    <p><a href="/" class="btn btn-primary">← Home</a></p>
+    """, 500
+
 @app.route("/")
 @app.route("/index")
 def index():
-    """Homepage"""
     return render_template("heart.html")
+
+@app.route("/assessment")
+def assessment():
+    bmi = session.get("bmi", None)
+    return render_template("assessment.html", bmi=bmi)
 
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi():
@@ -38,6 +53,7 @@ def bmi():
             height_m = height_cm / 100
             bmi_val = round(weight / (height_m ** 2), 2)
             session["bmi"] = bmi_val
+            session.modified = True
             return render_template("bmi.html", bmi=bmi_val)
         except (ValueError, ZeroDivisionError):
             return render_template("bmi.html", error="Invalid input. Please check your numbers."), 400
@@ -47,29 +63,23 @@ def bmi():
 @app.route("/result", methods=["POST"])
 def result():
     try:
-        # Input validation
-        age = int(request.form.get("age", 0))
-        gender = int(request.form.get("gender", 0))
-        sysBP = float(request.form.get("sysBP", 0))
-        diaBP = float(request.form.get("diaBP", 0))
-        glucose = float(request.form.get("glucose", 0))
-        totChol = float(request.form.get("totChol", 0))
+        # Safe defaults
+        age = int(request.form.get("age", 45))
+        gender = int(request.form.get("gender", 0)) 
+        sysBP = float(request.form.get("sysBP", 120))
+        diaBP = float(request.form.get("diaBP", 80))
+        glucose = float(request.form.get("glucose", 100))
+        totChol = float(request.form.get("totChol", 200))
 
-        if not all([18 <= age <= 100, 0 <= gender <= 1, 50 <= sysBP <= 250, 30 <= diaBP <= 150, 
-                   50 <= glucose <= 400, 100 <= totChol <= 600]):
-            return "Invalid health data ranges.", 400
-
-        bmi = float(session.get("bmi", 22.5))  # Default average BMI if missing
+        bmi = float(session.get("bmi", 22.5))
         if bmi <= 0:
             return redirect(url_for("bmi"))
 
-        # Prediction
         data = np.array([[age, gender, sysBP, diaBP, glucose, totChol, bmi]])
         
         if model is not None:
             prediction = int(model.predict(data)[0])
         else:
-            # Fallback logic based on risk factors
             prediction = 1 if (sysBP > 140 or totChol > 240 or bmi > 30 or age > 60) else 0
         
         session["prediction"] = prediction
@@ -79,11 +89,10 @@ def result():
 
     except Exception as e:
         print(f"Prediction error: {e}")
-        return f"Calculation error. Please check inputs.", 500
+        return f"Calculation error: {str(e)}. Please check inputs.", 400
 
 @app.route("/diet")
 def diet():
-    """Personalized diet recommendations"""
     try:
         bmi = float(session.get("bmi", 22.5))
         prediction = int(session.get("prediction", 0))
@@ -117,12 +126,8 @@ def diet():
                              risk=bool(prediction))
     except Exception as e:
         print(f"Diet error: {e}")
-        return "Session expired. Please redo BMI and assessment.", 400
-
-@app.route("/test")
-def test():
-    return {"status": "API working", "model_loaded": model is not None}
+        return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)
 

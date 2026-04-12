@@ -21,9 +21,9 @@
                 {% else %}Obese {% endif %}
               </h4>
               <p class="mb-0 fs-5">Heart risk: {{ 'Low' if bmi < 25 else 'Moderate' if bmi < 30 else 'High' }}</p>
-              <a href="{{ url_for('home') }}" class="btn btn-heart btn-lg mt-3">Get Full Heart Assessment</a>
+              <a href="{{ url_for('index') }}" class="btn btn-heart btn-lg mt-3">Get Full Heart Assessment</a>
             </div>
-            {% endif %}
+            {% endif %}	           
             
             <form action="{{ url_for('bmi') }}" method="POST" class="needs-validation" novalidate>
               <div class="row g-4">
@@ -66,7 +66,7 @@
                 <i class="fas fa-heart-broken fa-3x text-danger mb-3"></i>
                 <h5 class="card-title">Heart Risk</h5>
                 <p class="lead mb-4">Higher BMI increases cardiovascular risk. Our AI assessment gives personalized insights.</p>
-                <a href="{{ url_for('home') }}" class="btn btn-outline-danger">Start Assessment</a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-danger">Start Assessment</a>
               </div>
             </div>
           </div>
