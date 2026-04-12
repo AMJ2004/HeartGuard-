@@ -1,73 +1,197 @@
 {% extends 'base.html' %}
-{% block title %}AI Nutrition Plans - HeartGuard+{% endblock %}
+{% block title %}🍎 AI Nutrition & Diet Plans - HeartGuard+{% endblock %}
 {% block content %}
 <section class="py-5">
-  <div class="container" style="max-width: 980px;">
-    <h2 class="fw-bold mb-2" style="padding-top: 10px;">🍎 AI-Powered Nutrition for Heart Health</h2>
-    <p class="text-muted">Advanced nutrition science meets artificial intelligence. Get personalized meal plans that optimize your heart health based on your unique profile.</p>
-    <div class="alert alert-success border-0 bg-light mb-4">
-      <strong>🧠 Smart Nutrition:</strong> Our AI analyzes your health data to recommend the perfect foods for your heart.
-    </div>
-    <div class="text-center mb-4">
-      <form action="{{ url_for('diet') }}" method="POST">
-        <button type="submit" class="btn btn-heart btn-lg px-5">Generate My Personalized Diet Plan & Recipes</button>
-      </form>
-    </div>
-    <hr>
-    <div class="row gy-4 align-items-start">
-      <div class="col-lg-7">
-        <h4 class="mt-2">Best heart-friendly foods to eat</h4>
-        <ul>
-          <li>Lots of fruits and vegetables</li>
-          <li>Lean meats and skinless poultry</li>
-          <li>Nuts, beans, and legumes</li>
-          <li>Fish, especially oily fish rich in omega-3s</li>
-          <li>Whole grains</li>
-          <li>Plant-based oils (e.g., olive oil)</li>
-          <li>Low-fat dairy products</li>
-          <li>Eggs (up to six per week)</li>
-        </ul>
-        <p>As a rule of thumb, fill half your plate with a variety of vegetables at every meal.</p>
-        <p>Have at least two servings of oily fish per week: salmon, sardines, trout, herring, or mackerel.</p>
-        <p>Prefer water for hydration. For flavor, infuse with lemon, cucumber, or berries.</p>
+  <div class="container" style="max-width: 1000px;">
+    <div class="text-center mb-5">
+      <div class="feature-icon mb-4 mx-auto" style="width: 100px; height: 100px;">
+        <i class="fas fa-seedling fa-3x text-success"></i>
       </div>
-      <div class="col-lg-5 text-center">
-        <img src="{{ url_for('static', filename='images/heartdiet.jpg') }}" class="img-fluid rounded-4 shadow center" alt="heart diet">
+      <h1 class="display-4 fw-bold mb-4">AI-Powered Nutrition Intelligence</h1>
+      <p class="lead mb-5">Advanced nutrition science + artificial intelligence = personalized meal plans optimized for your heart health</p>
+      
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <a href="{{ url_for('diet') }}" class="btn btn-heart btn-lg w-100 mb-4 animate-pulse" style="font-size: 1.3rem; padding: 1.2rem;">
+            <i class="fas fa-magic me-3"></i>Generate My Personalized Diet & Recipes Now
+          </a>
+        </div>
       </div>
     </div>
 
-    <hr class="my-5">
-
-    <h4>Foods to Avoid</h4>
-    <p>Limit excess sugar, salt, and unhealthy fats—especially after a cardiac event.</p>
-    <div class="row">
-      <div class="col-md-6">
-        <ul>
-          <li>Fast and fried foods</li>
-          <li>Highly processed boxed meals</li>
-          <li>Canned foods with added salt</li>
-          <li>Candy, chips, cookies, cakes</li>
-          <li>Ice cream</li>
-        </ul>
+    <!-- Diet Philosophy -->
+    <div class="row g-5 mb-5 align-items-center">
+      <div class="col-lg-6 order-lg-2">
+        <img src="{{ url_for('static', filename='images/heartdiet.jpg') }}" class="img-fluid rounded-5 shadow-lg" alt="Heart healthy diet plate" loading="lazy">
       </div>
-      <div class="col-md-6">
-        <ul>
-          <li>Condiments high in sugar/salt (e.g., mayonnaise, ketchup)</li>
-          <li>Red meat (enjoy sparingly)</li>
-          <li>Alcohol</li>
-          <li>Hydrogenated oils (trans fats)</li>
-          <li>Deli meats, pizza, burgers, and hot dogs</li>
-        </ul>
+      <div class="col-lg-6 order-lg-1">
+        <h2 class="display-6 fw-bold mb-4">🧠 How Our AI Works</h2>
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <div class="d-flex">
+              <div class="feature-icon bg-primary me-3 mt-1">1</div>
+              <div>
+                <h6 class="fw-bold mb-1">Analyzes Your Profile</h6>
+                <small>BMI, prediction risk, health markers</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex">
+              <div class="feature-icon bg-success me-3 mt-1">2</div>
+              <div>
+                <h6 class="fw-bold mb-1">Medical Guidelines</h6>
+                <small>ACC/AHA cardiac nutrition protocols</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex">
+              <div class="feature-icon bg-info me-3 mt-1">3</div>
+              <div>
+                <h6 class="fw-bold mb-1">Personalizes Recipes</h6>
+                <small>Calories, macros, preferences optimized</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex">
+              <div class="feature-icon bg-warning me-3 mt-1">4</div>
+              <div>
+                <h6 class="fw-bold mb-1">Tracks Progress</h6>
+                <small>Weekly adjustments & insights</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="{{ url_for('diet') }}" class="btn btn-outline-primary btn-lg mt-3">
+          <i class="fas fa-chart-line me-2"></i>View My AI Analysis
+        </a>
       </div>
     </div>
 
-    <div class="alert alert-light border mt-3" role="alert">
-      <ul class="mb-0">
-        <li>Saturated fat ≤ 6% of total daily calories, especially if cholesterol is high.</li>
-        <li>Sodium ≤ 1500 mg/day to help manage blood pressure.</li>
-        <li>Enjoy coffee/tea in moderation without added cream or sugar.</li>
-      </ul>
+    <!-- Foods Pyramid -->
+    <div class="text-center mb-5">
+      <h2 class="display-6 fw-bold mb-4">🥗 Heart-Healthy Eating Guide</h2>
+      <p class="lead text-muted mb-5">Fill your plate using this proven ratio for optimal cardiac protection</p>
+      
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="card hc-card h-100 border-0">
+            <div class="card-body text-center py-5">
+              <div class="pyramid-icon mb-4" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #10b981, #059669); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-carrot fa-2x text-white"></i>
+              </div>
+              <h5>🥬 Vegetables (50%)</h5>
+              <small class="text-muted d-block mb-3">Leafy greens, broccoli, peppers</small>
+              <div class="progress mx-auto mb-0" style="width: 80%; height: 12px;">
+                <div class="progress-bar bg-success" style="width: 50%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card hc-card h-100 border-0">
+            <div class="card-body text-center py-5">
+              <div class="pyramid-icon mb-4" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-apple-alt fa-2x text-white"></i>
+              </div>
+              <h5>🍎 Fruits (25%)</h5>
+              <small class="text-muted d-block mb-3">Berries, apples, citrus</small>
+              <div class="progress mx-auto mb-0" style="width: 80%; height: 12px;">
+                <div class="progress-bar bg-warning" style="width: 25%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card hc-card h-100 border-0">
+            <div class="card-body text-center py-5">
+              <div class="pyramid-icon mb-4" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-fish fa-2x text-white"></i>
+              </div>
+              <h5>🐟 Protein (15%)</h5>
+              <small class="text-muted d-block mb-3">Salmon, tofu, lentils</small>
+              <div class="progress mx-auto mb-0" style="width: 80%; height: 12px;">
+                <div class="progress-bar bg-info" style="width: 15%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card hc-card h-100 border-0">
+            <div class="card-body text-center py-5">
+              <div class="pyramid-icon mb-4" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-grain-camp fa-2x text-white"></i>
+              </div>
+              <h5>🌾 Grains (10%)</h5>
+              <small class="text-muted d-block mb-3">Quinoa, oats, brown rice</small>
+              <div class="progress mx-auto mb-0" style="width: 80%; height: 12px;">
+                <div class="progress-bar bg-purple" style="width: 10%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Foods to Limit -->
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <img src="{{ url_for('static', filename='images/diet6.jpg') }}" class="img-fluid rounded-5 shadow-lg" alt="Foods to avoid" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h2 class="display-6 fw-bold mb-4 text-danger">🚫 Foods to Limit</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="alert alert-danger border-0 p-4">
+              <h6><i class="fas fa-ban me-2"></i>High Risk Foods</h6>
+              <ul class="mb-0 small">
+                <li>Fried foods & fast food</li>
+                <li>Processed meats</li>
+                <li>Sugary drinks/snacks</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="alert alert-warning border-0 p-4">
+              <h6><i class="fas fa-exclamation-triangle me-2"></i>Limit These</h6>
+              <ul class="mb-0 small">
+                <li>Red meat (1x/week max)</li>
+                <li>High salt processed foods</li>
+                <li>Excessive alcohol</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-info mt-4 p-4 border-0">
+          <h6><i class="fas fa-lightbulb me-2"></i>Pro Tips</h6>
+          <ul class="mb-0 small">
+            <li>Sodium < 1500mg daily</li>
+            <li>Saturated fat < 6% calories</li>
+            <li>8+ glasses water daily</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center py-5 mt-5 bg-light rounded-5">
+      <div class="feature-icon mx-auto mb-4" style="width: 120px; height: 120px;">
+        <i class="fas fa-rocket fa-3x text-primary"></i>
+      </div>
+      <h2 class="display-5 fw-bold mb-4">Ready to Transform Your Heart Health?</h2>
+      <p class="lead mb-5 text-muted">Get your personalized AI diet plan in 30 seconds</p>
+      <div class="d-flex flex-column flex-lg-row gap-3 justify-content-center align-items-center">
+        <a href="{{ url_for('diet') }}" class="btn btn-heart btn-xl px-5 py-3">
+          <i class="fas fa-play-circle me-3"></i>Start My Diet Plan Now
+        </a>
+        <a href="{{ url_for('bmi') }}" class="btn btn-outline-primary btn-xl px-5 py-3">
+          <i class="fas fa-calculator me-3"></i>Check BMI First
+        </a>
+      </div>
     </div>
   </div>
 </section>
 {% endblock %}
+

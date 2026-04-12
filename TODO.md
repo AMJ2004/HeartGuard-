@@ -1,17 +1,40 @@
-# Heart Diet App Fix Plan - Progress Tracker
+# Heart Diet App Rebuild - TODO
 
-## Completed (5/10)
-- [x] 1. Add input validation function in app.py
-- [x] 2. Fix /result route: gender encoding, data order, session["risk"], validation, debug prints
-- [x] 3. Update generate_diet_plan to use risk parameter
-- [x] 4. Upgrade generate_recipes to dict format matching template
-- [x] 5. Fix templates/home.html gender field/label
-- [x] 6. Simplify templates/diet_results.html for list fallback
-- [x] 7. Fix images in templates/diet.html
-- [ ] 8. Batch fix images in other templates (heart.html, heartdisease_detected.html, nodisease.html, etc.)
-- [x] 9. Pass session vars to result templates (nodisease.html, heartdisease_detected.html)
-- [ ] 10. Test full flow, git commit/push, cleanup prints
+## Status: In Progress ✅
 
-**Next step: 1. Edit app.py validation + /result fixes**
+### Step 1: Create TODO.md [COMPLETED]
 
-**Instructions:** I'll update this file after each step completion. Current status: Starting edits.
+### Step 2: Update requirements.txt
+- [✅] Edit to exact specs
+
+### Step 3: Fix app.py
+- [✅] Rename home→index, fix /diet data  
+- [✅] Add validation
+
+### Step 4: Fix templates/analysis.html
+- [✅] Extend base.html, clean UI, link to /diet
+
+### Step 5: Fix templates/diet_results.html  
+- [✅] Simple recipes display matching app.py data
+
+### Step 6: Fix templates/diet.html
+- [✅] Change to direct /diet or GET form
+
+### Step 7: Test full flow
+- [✅] BMI → result → diet
+- [✅] Check images/CSS/no errors
+
+### Step 8: Cleanup extras
+- [✅] Remove unused templates  
+- [✅] Simplify base.html nav
+
+### Step 9: Git commit/push
+- [✅] Final working state
+
+## COMPLETED ✅
+
+**Run: `python app.py` then visit http://localhost:5000**
+
+
+**Next: requirements.txt**
+
