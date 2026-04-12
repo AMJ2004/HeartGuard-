@@ -22,11 +22,6 @@ try:
 except:
     def get_diet_plan(pref):
         return "Sample heart-healthy diet plan based on preferences."
-try:
-    # Add other stubs if needed
-    pass
-except:
-    pass
 
 @app.route("/")
 @app.route("/index")
@@ -45,9 +40,27 @@ def about():
 def diet():
     return render_template("diet.html")
 
-@app.route("/bmi")
+@app.route("/bmi", methods=["GET", "POST"])
 def bmi():
-    return render_template("bmi.html")
+    bmi_value = None
+    category = None
+    if request.method == "POST":
+        try:
+            weight = float(request.form["weight"])
+            height = float(request.form["height"]) / 100  # cm to m
+            bmi_value = weight / (height ** 2)
+            if bmi_value < 18.5:
+                category = "Underweight"
+            elif bmi_value < 25:
+                category = "Normal"
+            elif bmi_value < 30:
+                category = "Overweight"
+            else:
+                category = "Obese"
+        except:
+            bmi_value = 0
+            category = "Error"
+    return render_template("bmi.html", bmi=bmi_value, category=category)
 
 @app.route("/checkup")
 def checkup():
@@ -72,7 +85,6 @@ def quit_smoking():
 @app.route("/result", methods=["POST"])
 def result():
     try:
-        # Parse form data
         sysBP = float(request.form.get("sysBP", 120))
         glucose = float(request.form.get("glucose", 80))
         age = int(request.form.get("age", 50))
@@ -80,8 +92,7 @@ def result():
         totChol = float(request.form.get("totChol", 200))
         diaBP = float(request.form.get("diaBP", 80))
         
-        # Full features for model (pad as per training)
-        data = np.array([[age, totChol, glucose, bmi, diaBP, sysBP, 0, 0, 1, 0]])  # example features
+        data = np.array([[age, totChol, glucose, bmi, diaBP, sysBP, 0, 0, 1, 0]])
         
         prediction = 0
         if model is not None:
@@ -92,7 +103,7 @@ def result():
         else:
             return render_template("heartdisease_detected.html", prediction=prediction)
     except Exception as e:
-        return render_template("error.html", error=str(e)) if 'error.html' else f"Error: {str(e)}"
+        return f"Error: {str(e)}"
 
 @app.route("/diet_results", methods=["POST"])
 def diet_results():
@@ -102,11 +113,11 @@ def diet_results():
 
 @app.route("/test")
 def test():
-    return "App working perfectly! All routes ready for Render deployment 🚀"
+    return "App working perfectly! BMI calculator + images fixed 🚀"
 
 @app.errorhandler(404)
 def not_found(e):
-    return render_template("404.html") if os.path.exists("templates/404.html") else ("Page not found", 404)
+    return "Page not found", 404
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
