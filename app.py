@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import os
 import numpy as np
 import pickle
@@ -44,13 +44,14 @@ def diet():
 def bmi():
     if request.method == "POST":
         try:
-            weight = float(request.form.get("weight", 0))
-            height = float(request.form.get("height", 0))
+            weight = float(request.form.get("weight"))
+            height = float(request.form.get("height")) / 100
 
-            if height > 0:
-                bmi_value = weight / (height * height)
-            else:
-                bmi_value = 0
+            if height <= 0 or weight <= 0:
+                return "Invalid input"
+
+            bmi_value = round(weight / (height * height), 2)
+            session["bmi"] = bmi_value
 
             return render_template("bmi.html", bmi=bmi_value)
 
@@ -85,7 +86,7 @@ def result():
         sysBP = float(request.form.get("sysBP", 120))
         glucose = float(request.form.get("glucose", 80))
         age = int(request.form.get("age", 50))
-        bmi = float(request.form.get("bmi", 25))
+        bmi = float(session.get("bmi", request.form.get("bmi", 0)))
         totChol = float(request.form.get("totChol", 200))
         diaBP = float(request.form.get("diaBP", 80))
         
@@ -110,7 +111,7 @@ def diet_results():
 
 @app.route("/diet-preferences")
 def diet_preferences():
-    return render_template("diet_preferences.html")
+    return render_template("diet.html")
 
 @app.route("/test")
 def test():
