@@ -202,9 +202,7 @@ def _high_risk_flags(*, age: int, sysBP: float, diaBP: float, glucose: float, bm
     return highs, len(highs)
 
 
-@app.route("/")
-def index():
-    return render_template('heart.html')
+@app.route("/")\ndef index():\n    try:\n        return render_template('heart.html')\n    except:\n        return "HeartGuard+ is running! Visit /home for BMI calc or /checkup for risk assessment."
 @app.route("/home")
 def home():
     # Prefill from last BMI calculation if available
@@ -288,7 +286,7 @@ def result():
     # x = np.array([sysbp, glucose, age, cigsperday, totchol, diabp, prevalentHyp,
     #               male, bpmeds,diabetes])
     print(x)
-    model = _safe_load_model('pickle files/randomf.pkl')
+model = _safe_load_model('pickle_files/randomf.pkl')
 
     # mp = None
     # scaler_path = os.path.join(os.path.dirname(__file__), 'randomf')
