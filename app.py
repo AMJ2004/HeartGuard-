@@ -117,40 +117,9 @@ def result():
 # DIET PAGES
 # -------------------------
 @app.route("/diet")
-@app.route("/diet-preferences")
 def diet():
     bmi = session.get("bmi", 25.0)
     return render_template("diet.html", bmi=bmi)
-
-@app.route("/diet-results", methods=["GET", "POST"])
-def diet_results():
-    try:
-        bmi = float(session.get("bmi", 25.0))
-        risk = int(session.get("risk", 0))
-
-        # Risk-aware diet
-        if risk == 1:
-            diet = "Low calorie heart-friendly diet (HIGH RISK)"
-        elif bmi < 18.5:
-            diet = "High calorie diet with protein-rich foods"
-        elif bmi < 25:
-            diet = "Balanced diet with fruits & vegetables"
-        else:
-            diet = "Low calorie diet with low fat and sugar"
-
-        # Recipes list for template loop
-        if "High calorie" in diet:
-            recipes = ["Banana Shake", "Peanut Butter Toast", "Avocado Smoothie"]
-        elif "Balanced" in diet:
-            recipes = ["Salad Bowl", "Grilled Vegetables", "Quinoa Bowl"]
-        else:
-            recipes = ["Oats Porridge", "Boiled Vegetables", "Lentil Soup"]
-
-        return render_template("diet_results.html", diet=diet, recipes=recipes)
-
-    except Exception as e:
-        flash(f"Diet Error: {str(e)}", "error")
-        return redirect(url_for('diet'))
 
 # -------------------------
 # OTHER ROUTES (unchanged)
@@ -184,4 +153,4 @@ def test():
     return "App working perfectly! BMI → Prediction → Diet flow fixed 🚀"
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True)
