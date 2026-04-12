@@ -21,14 +21,18 @@ model = load_model()
 # ---------------- ERROR HANDLER ----------------
 @app.errorhandler(Exception)
 def handle_exception(e):
-    return f"<pre>{traceback.format_exc()}</pre>"
+    return f"<h1>Debug: 500 Error</h1><pre>{traceback.format_exc()}</pre><a href='/'>Home</a>", 500
 
-# ---------------- HOME ----------------
+# ---------------- ROUTES ----------------
 @app.route("/")
 def index():
     return render_template("heart.html")
 
-# ---------------- BMI ----------------
+@app.route("/assessment")
+def assessment():
+    bmi = session.get("bmi", None)
+    return render_template("assessment.html", bmi=bmi)
+
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi():
     if request.method == "POST":
@@ -50,7 +54,6 @@ def bmi():
 
     return render_template("bmi.html")
 
-# ---------------- PREDICTION ----------------
 @app.route("/result", methods=["POST"])
 def result():
     try:
@@ -62,41 +65,31 @@ def result():
         totChol = float(request.form.get("totChol", 200))
 
         bmi = float(session.get("bmi", 0))
-
         if bmi <= 0:
             return redirect(url_for("bmi"))
 
-        # MODEL INPUT (KEEP THIS ORDER)
         data = np.array([[age, gender, sysBP, diaBP, glucose, totChol, bmi]])
 
         if model:
             prediction = int(model.predict(data)[0])
         else:
-            # fallback logic
             prediction = 1 if (sysBP > 140 or totChol > 240 or bmi > 30 or age > 60) else 0
 
         session["prediction"] = prediction
 
         return render_template("analysis.html",
                                prediction=prediction,
-                               bmi=bmi,
-                               age=age,
-                               sysBP=sysBP,
-                               diaBP=diaBP,
-                               glucose=glucose,
-                               totChol=totChol)
+                               bmi=bmi)
 
     except Exception as e:
         return f"Error: {str(e)}"
 
-# ---------------- DIET ----------------
 @app.route("/diet")
 def diet():
     try:
         bmi = float(session.get("bmi", 22))
         prediction = int(session.get("prediction", 0))
 
-        # DIET LOGIC
         if bmi < 18.5:
             diet = "High calorie diet"
             recipes = ["Banana Shake", "Peanut Butter Toast"]
@@ -112,7 +105,6 @@ def diet():
 
         if prediction == 1:
             diet += " (Heart Risk Care)"
-            recipes = [r + " (Low oil)" for r in recipes]
 
         return render_template("diet_results.html",
                                diet=diet,
@@ -123,11 +115,6 @@ def diet():
     except:
         return redirect(url_for("index"))
 
-# ---------------- TEST ----------------
-@app.route("/test")
-def test():
-    return "Working 🚀"
-
-# ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
+
