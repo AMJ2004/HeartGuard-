@@ -42,25 +42,22 @@ def diet():
 
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi():
-    bmi_value = None
-    category = None
     if request.method == "POST":
         try:
-            weight = float(request.form["weight"])
-            height = float(request.form["height"]) / 100  # cm to m
-            bmi_value = weight / (height ** 2)
-            if bmi_value < 18.5:
-                category = "Underweight"
-            elif bmi_value < 25:
-                category = "Normal"
-            elif bmi_value < 30:
-                category = "Overweight"
+            weight = float(request.form.get("weight", 0))
+            height = float(request.form.get("height", 0))
+
+            if height > 0:
+                bmi_value = weight / (height * height)
             else:
-                category = "Obese"
-        except:
-            bmi_value = 0
-            category = "Error"
-    return render_template("bmi.html", bmi=bmi_value, category=category)
+                bmi_value = 0
+
+            return render_template("bmi.html", bmi=bmi_value)
+
+        except Exception as e:
+            return f"BMI Error: {str(e)}"
+
+    return render_template("bmi.html")
 
 @app.route("/checkup")
 def checkup():
@@ -110,6 +107,10 @@ def diet_results():
     preferences = request.form.get("preferences", "general")
     diet_plan = get_diet_plan(preferences)
     return render_template("diet_results.html", plan=diet_plan)
+
+@app.route("/diet-preferences")
+def diet_preferences():
+    return render_template("diet_preferences.html")
 
 @app.route("/test")
 def test():
