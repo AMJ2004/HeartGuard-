@@ -4,7 +4,7 @@ import numpy as np # type: ignore
 import pandas as pd # type: ignore
 import pickle
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static', static_url_path='', template_folder='templates')
 # Enable template auto-reload in development to ensure UI changes show up immediately
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 try:
