@@ -7,6 +7,6 @@
 - [x] Verify static/images/food.jpg exists
 - [x] Remove wrong loops on prediction
 - [x] Fix broken url_for in nodisease.html
-- [ ] Run route tests
-- [ ] Git commit & push
+- [x] Run route tests
+- [x] Git commit & push
 

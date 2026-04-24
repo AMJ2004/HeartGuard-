@@ -42,7 +42,6 @@
               <li><strong>Diabetes:</strong> {{d}}</li>
             </ul>
           </div>
-        </div>
         {% if feature_rows %}
         <div class="table-responsive my-3">
           <table class="table table-sm table-bordered">
@@ -83,19 +82,14 @@
               {% endfor %}
             </ul>
           </div>
-        </div>
         {% endif %}
-        <a class="btn btn-primary"
-           href="{{ url_for('diet_preferences', age=age, gender=gender, bmi=bmi, sysBP=sysBP, diaBP=diaBP, glucose=glucose, totChol=totCHol, p=p, d=d, b=b, risk_reason='high_bp' if p=='Yes' else '') }}">
-           Continue to Diet Preferences
+        <a class="btn btn-primary" href="{{ url_for('diet') }}">
+           Continue to Diet Plan
         </a>
       </div>
-    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-

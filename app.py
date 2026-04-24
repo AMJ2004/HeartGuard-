@@ -4,6 +4,14 @@ import pickle
 import traceback
 import os
 
+from diet_recommender import (
+    load_dataset,
+    get_minmax_scaler,
+    recommend_recipes,
+    personalize_diet,
+    to_recipe_output,
+)
+
 app = Flask(__name__)
 app.secret_key = "your-super-secret-key-change-in-production"
 
@@ -12,11 +20,12 @@ def load_model():
     try:
         with open("pickle_files/randomf.pkl", "rb") as f:
             return pickle.load(f)
-    except:
-        print("Model not found, using fallback")
+    except Exception as e:
+        print(f"Model not found: {e}, using fallback")
         return None
 
 model = load_model()
+scaler, scaler_available = get_minmax_scaler()
 
 # ---------------- ERROR HANDLER ----------------
 @app.errorhandler(Exception)
@@ -86,6 +95,7 @@ def bmi():
 @app.route("/result", methods=["POST"])
 def result():
     try:
+        # Collect inputs safely
         age = int(request.form.get("age", 45))
         gender = int(request.form.get("gender", 0))
         sysBP = float(request.form.get("sysBP", 120))
@@ -93,17 +103,51 @@ def result():
         glucose = float(request.form.get("glucose", 100))
         totChol = float(request.form.get("totChol", 200))
 
+        # BMI from session
         bmi = float(session.get("bmi", 0))
         if bmi <= 0:
             return redirect(url_for("bmi"))
 
-        data = np.array([[age, gender, sysBP, diaBP, glucose, totChol, bmi]])
+        # Derived features for the 10-feature model
+        # ['sysBP','glucose','age','totChol','diaBP','prevalentHyp','diabetes','male','BPMeds','BMI']
+        prevalentHyp = 1 if sysBP >= 140 else 0
+        diabetes = 1 if glucose >= 126 else 0
+        male = gender
+        BPMeds = 0  # Not collected in form; default to 0
 
+        # Build feature array in correct order
+        data = np.array([[sysBP, glucose, age, totChol, diaBP, prevalentHyp, diabetes, male, BPMeds, bmi]])
+
+        # Predict with scaler if available
         if model:
-            prediction = int(model.predict(data)[0])
+            if scaler_available and scaler:
+                try:
+                    X_scaled = scaler.transform(data)
+                    prediction = int(model.predict(X_scaled)[0])
+                except Exception as e:
+                    print(f"Scaler failed: {e}, falling back to raw features")
+                    prediction = int(model.predict(data)[0])
+            else:
+                prediction = int(model.predict(data)[0])
         else:
+            # Fallback heuristic
             prediction = 1 if (sysBP > 140 or totChol > 240 or bmi > 30 or age > 60) else 0
 
+        # Store in session
+        user_data = {
+            "age": age,
+            "gender": gender,
+            "male": male,
+            "sysBP": sysBP,
+            "diaBP": diaBP,
+            "glucose": glucose,
+            "totChol": totChol,
+            "bmi": bmi,
+            "prevalentHyp": prevalentHyp,
+            "diabetes": diabetes,
+            "BPMeds": BPMeds,
+        }
+        session["user_data"] = user_data
         session["prediction"] = prediction
 
         return render_template("analysis.html",
@@ -116,37 +160,30 @@ def result():
 @app.route("/diet")
 def diet():
     try:
-        bmi = float(session.get("bmi", 22))
-        prediction = int(session.get("prediction", 0))
+        user_data = session.get("user_data")
+        if not user_data:
+            # Fallback if session expired
+            bmi = float(session.get("bmi", 22))
+            prediction = int(session.get("prediction", 0))
+            user_data = {"bmi": bmi, "prediction": prediction, "sysBP": 120, "glucose": 100, "totChol": 200}
 
-        if bmi < 18.5:
-            diet = "High calorie diet"
-            recipes = ["Banana Shake", "Peanut Butter Toast"]
-        elif bmi < 25:
-            diet = "Balanced diet"
-            recipes = ["Salad", "Grilled Paneer"]
-        elif bmi < 30:
-            diet = "Weight control diet"
-            recipes = ["Oats", "Vegetable Soup"]
-        else:
-            diet = "Low calorie heart diet"
-            recipes = ["Boiled Veggies", "Oats"]
+        # Load dataset and generate recipes
+        df = load_dataset()
+        recipes_raw = recommend_recipes(df, user_data)
+        recipes = to_recipe_output(recipes_raw)
 
-        if prediction == 1:
-            diet += " (Heart Risk Care)"
-
-        calories = 2200 if bmi < 25 else 1800
+        # Personalize diet plan
+        diet_plan = personalize_diet(user_data)
 
         return render_template("diet_results.html",
-                               diet=diet,
                                recipes=recipes,
-                               bmi=bmi,
-                               risk=prediction,
-                               calories=calories)
+                               diet_plan=diet_plan,
+                               bmi=user_data.get("bmi", 22),
+                               risk=user_data.get("prediction", 0))
 
-    except:
+    except Exception as e:
+        print(f"Diet route error: {e}")
         return redirect(url_for("index"))
 
 if __name__ == "__main__":
     app.run(debug=True)
-
