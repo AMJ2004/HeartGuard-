@@ -25,10 +25,37 @@ def handle_exception(e):
 
 # ---------------- ROUTES ----------------
 @app.route("/")
-@app.route("/home")
 @app.route("/index")
 def index():
     return render_template("heart.html")
+
+@app.route("/home")
+def home():
+    return redirect(url_for('index'))
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/stress")
+def stress():
+    return render_template("stress.html")
+
+@app.route("/fitness")
+def fitness():
+    return render_template("fitness.html")
+
+@app.route("/sleep")
+def sleep():
+    return render_template("sleep.html")
+
+@app.route("/quit_smoking")
+def quit_smoking():
+    return render_template("QuitSmoking.html")
+
+@app.route("/diet_recommendations", methods=["POST"])
+def diet_recommendations():
+    return redirect(url_for('diet'))
 
 @app.route("/assessment")
 def assessment():

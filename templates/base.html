@@ -24,7 +24,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ url_for('bmi') }}">📊 BMI Calculator</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('result', _external=True) }}">🔍 AI Assessment</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('assessment') }}">🔍 AI Assessment</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ url_for('diet') }}">🍎 Diet Plans</a></li>
         </ul>
       </div>
@@ -65,7 +65,7 @@
             <li><a href="{{ url_for('stress') }}" class="text-muted text-decoration-none">🧘 Stress Management</a></li>
             <li><a href="{{ url_for('fitness') }}" class="text-muted text-decoration-none">💪 Fitness Plans</a></li>
             <li><a href="{{ url_for('sleep') }}" class="text-muted text-decoration-none">😴 Sleep Optimization</a></li>
-{{ url_for('quit_smoking') }}
+            <li><a href="{{ url_for('quit_smoking') }}" class="text-muted text-decoration-none">🚭 Quit Smoking</a></li>
           </ul>
         </div>
         

@@ -81,7 +81,8 @@
   </div>
 </section>
 {% endblock %}
-{% endblock scripts %}
+
+{% block scripts %}
 <script>
   // Enhanced form validation
   (function() {
@@ -97,4 +98,5 @@
       }, false)
     })
   })()
-</script>{% endblock %}
+</script>
+{% endblock %}
