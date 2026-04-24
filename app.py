@@ -135,11 +135,14 @@ def diet():
         if prediction == 1:
             diet += " (Heart Risk Care)"
 
+        calories = 2200 if bmi < 25 else 1800
+
         return render_template("diet_results.html",
                                diet=diet,
                                recipes=recipes,
                                bmi=bmi,
-                               risk=prediction)
+                               risk=prediction,
+                               calories=calories)
 
     except:
         return redirect(url_for("index"))

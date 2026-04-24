@@ -1,147 +1,26 @@
-{% extends 'base.html' %}
-{% block title %}AI Heart Risk Analysis - HeartGuard+{% endblock %}
+{% extends "base.html" %}
 {% block content %}
-<section class="py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="card hc-card shadow-lg border-0">
-          <div class="card-header bg-gradient text-white text-center py-5">
-            <div class="feature-icon mb-4 mx-auto" style="width: 80px; height: 80px;">
-              {% if prediction == 1 %}
-                <i class="fas fa-heart-broken fa-2x text-white"></i>
-              {% else %}
-                <i class="fas fa-heart fa-2x text-white"></i>
-              {% endif %}
-            </div>
-            <h1 class="display-4 fw-bold mb-3">Heart Risk Analysis Complete</h1>
-            <p class="lead mb-0">AI-powered assessment using your health data and medical-grade algorithms</p>
-          </div>
-          <div class="card-body p-5">
-            
-            <!-- Prediction Result -->
-            <div class="row mb-5">
-              <div class="col-md-6">
-                <div class="text-center p-4 rounded-4 {% if prediction == 1 %}bg-danger bg-opacity-10 border-danger{% else %}bg-success bg-opacity-10 border-success{% endif %}">
-                  <div class="feature-icon mx-auto mb-3 {% if prediction == 1 %}bg-danger{% else %}bg-success{% endif %}">
-                    {% if prediction == 1 %}
-                      <i class="fas fa-exclamation-triangle fa-2x"></i>
-                    {% else %}
-                      <i class="fas fa-check-circle fa-2x"></i>
-                    {% endif %}
-                  </div>
-                  <h2 class="display-5 fw-bold mb-2">
-                    {% if prediction == 1 %}🛑 HIGH RISK{% else %}✅ LOW RISK{% endif %}
-                  </h2>
-                  <p class="lead mb-0">
-                    {% if prediction == 1 %}Cardiovascular event risk detected{% else %}Excellent heart health profile{% endif %}
-                  </p>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="card h-100 border-0 shadow">
-                  <div class="card-body text-center">
-                    <h5 class="card-title">Your BMI</h5>
-                    <div class="display-3 fw-bold text-primary mb-3">{{ bmi|round(1) }}</div>
-                    <div class="progress mb-3 mx-auto" style="width: 80%; height: 20px;">
-                      {% set bmi_class = 'success' if bmi < 25 else 'warning' if bmi < 30 else 'danger' %}
-                      {% set bmi_pct = ((bmi - 12)/ (40-12)) * 100 | min(100) | max(0) %}
-                      <div class="progress-bar bg-{{ bmi_class }}" role="progressbar" style="width: {{ bmi_pct }}%" aria-valuenow="{{ bmi }}" aria-valuemin="12" aria-valuemax="40"></div>
-                    </div>
-                    <small class="text-muted">Normal range: 18.5 - 24.9</small>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- Next Steps -->
-            <div class="row g-4 mb-5">
-              <div class="col-md-6">
-                <div class="card hc-card h-100">
-                  <div class="card-body text-center">
-                    <i class="fas fa-apple-alt fa-3x text-success mb-3"></i>
-                    <h5 class="card-title">🍎 Personalized Diet Plan</h5>
-                    <p class="card-text">Get AI-generated meal plans tailored to your heart health profile, BMI, and risk assessment</p>
-                    <a href="{{ url_for('diet') }}" class="btn btn-heart btn-lg w-100">
-                      Generate My Diet Plan
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="card hc-card h-100">
-                  <div class="card-body text-center">
-                    <i class="fas fa-redo fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">🔄 Recalculate</h5>
-                    <p class="card-text">Update your health data or recalculate with different parameters</p>
-                    <a href="{{ url_for('bmi') }}" class="btn btn-outline-primary btn-lg w-100">
-                      Update BMI &amp; Recalculate
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">AI Health Risk Analysis</h2>
 
-            <!-- Risk Insights -->
-            <div class="row">
-              <div class="col-lg-8 mx-auto">
-                <div class="card hc-card">
-                  <div class="card-body">
-                    <h5 class="card-title mb-4">💡 What This Means</h5>
-                    <div class="row text-center">
-                      {% if prediction == 1 %}
-                      <div class="col-md-6 mb-3">
-                        <h6 class="text-danger"><i class="fas fa-fire"></i> Immediate Actions</h6>
-                        <ul class="list-unstyled">
-                          <li>✅ Consult cardiologist within 7 days</li>
-                          <li>✅ Start heart-healthy diet immediately</li>
-                          <li>✅ Monitor blood pressure daily</li>
-                        </ul>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <h6 class="text-warning"><i class="fas fa-tools"></i> Lifestyle Changes</h6>
-                        <ul class="list-unstyled">
-                          <li>🏃 30 min daily walking</li>
-                          <li>🍎 Low-sodium diet</li>
-                          <li>💤 7-8 hours sleep</li>
-                        </ul>
-                      </div>
-                      {% else %}
-                      <div class="col-md-6 mb-3">
-                        <h6 class="text-success"><i class="fas fa-shield-alt"></i> Maintain Health</h6>
-                        <ul class="list-unstyled">
-                          <li>✅ Continue healthy lifestyle</li>
-                          <li>✅ Annual checkups recommended</li>
-                          <li>✅ Monitor weight &amp; BP</li>
-                        </ul>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <h6 class="text-info"><i class="fas fa-chart-line"></i> Optimization</h6>
-                        <ul class="list-unstyled">
-                          <li>🥗 Balanced nutrition</li>
-                          <li>🏋️ Moderate exercise</li>
-                          <li>🧘 Stress management</li>
-                        </ul>
-                      </div>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="card shadow p-4 text-center">
+        <h4>Your BMI: {{ bmi }}</h4>
 
-            <div class="text-center mt-5">
-              <p class="text-muted mb-4">
-                <i class="fas fa-info-circle text-primary"></i> 
-                Note: Model not found - using enhanced fallback logic based on medical guidelines
-              </p>
-              <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg me-3">← Back to Home</a>
-            </div>
-          </div>
-        </div>
-      </div>
+        {% if prediction == 1 %}
+            <h3 class="text-danger mt-3">⚠ High Risk Detected</h3>
+            <p>Please follow a strict heart-friendly lifestyle.</p>
+        {% else %}
+            <h3 class="text-success mt-3">✅ Low Risk</h3>
+            <p>Maintain a healthy lifestyle.</p>
+        {% endif %}
+
+        <a href="{{ url_for('diet') }}" class="btn btn-primary mt-4">
+            Get Personalized Diet Plan
+        </a>
     </div>
-  </div>
-</section>
+
+</div>
+
 {% endblock %}
 

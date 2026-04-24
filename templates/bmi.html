@@ -1,97 +1,28 @@
-{% extends 'base.html' %}
-{% block title %}BMI Calculator - HeartGuard+{% endblock %}
+{% extends "base.html" %}
 {% block content %}
-<section class="py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card hc-card shadow-lg border-0">
-          <div class="card-header bg-gradient text-white text-center py-4">
-            <h1 class="display-5 fw-bold mb-0">📊 BMI Calculator</h1>
-            <p class="lead mb-0">Calculate your Body Mass Index and get personalized recommendations</p>
-          </div>
-          <div class="card-body p-5">
-            {% if bmi is defined %}
-            <div class="alert alert-{{ 'success' if bmi < 18.5 else 'warning' if bmi < 25 else 'danger' }} text-center mb-5">
-              <h3 class="alert-heading mb-3">Your BMI: <span class="display-4 fw-bold">{{ bmi|round(1) }}</span></h3>
-              <h4 class="mb-3">
-                {% if bmi < 18.5 %}Underweight
-                {% elif bmi < 25 %}Normal
-                {% elif bmi < 30 %}Overweight
-                {% else %}Obese {% endif %}
-              </h4>
-              <p class="mb-0 fs-5">Heart risk: {{ 'Low' if bmi < 25 else 'Moderate' if bmi < 30 else 'High' }}</p>
-              <a href="{{ url_for('index') }}" class="btn btn-heart btn-lg mt-3">Get Full Heart Assessment</a>
-            </div>
-            {% endif %}	           
-            
-            <form action="{{ url_for('bmi') }}" method="POST" class="needs-validation" novalidate>
-              <div class="row g-4">
-                <div class="col-md-6">
-                  <label for="weight" class="form-label fw-bold">Weight (kg)</label>
-                  <input type="number" class="form-control form-control-lg" id="weight" name="weight" step="0.1" min="20" max="300" required placeholder="e.g. 70.5">
-                  <div class="invalid-feedback">Enter valid weight (20-300 kg)</div>
-                </div>
-                <div class="col-md-6">
-                  <label for="height" class="form-label fw-bold">Height (cm)</label>
-                  <input type="number" class="form-control form-control-lg" id="height" name="height" step="0.1" min="100" max="250" required placeholder="e.g. 170">
-                  <div class="invalid-feedback">Enter valid height (100-250 cm)</div>
-                </div>
-              </div>
-              <div class="text-center mt-5">
-                <button type="submit" class="btn btn-heart btn-lg px-5">Calculate BMI</button>
-              </div>
-            </form>
-          </div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">BMI Calculator</h2>
+
+    <form method="POST" action="{{ url_for('bmi') }}" class="card p-4 shadow">
+
+        <label>Weight (kg)</label>
+        <input type="number" name="weight" class="form-control mb-3" required>
+
+        <label>Height (cm)</label>
+        <input type="number" name="height" class="form-control mb-3" required>
+
+        <button type="submit" class="btn btn-success">Calculate BMI</button>
+
+    </form>
+
+    {% if bmi %}
+        <div class="alert alert-info mt-4 text-center">
+            Your BMI is <strong>{{ bmi }}</strong>
         </div>
-        
-        <div class="row mt-5">
-          <div class="col-md-6">
-            <div class="card hc-card h-100">
-              <div class="card-body text-center">
-                <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
-                <h5 class="card-title">BMI Categories</h5>
-                <ul class="list-unstyled">
-                  <li><strong>< 18.5</strong> Underweight</li>
-                  <li><strong>18.5-24.9</strong> Normal</li>
-                  <li><strong>25-29.9</strong> Overweight</li>
-                  <li><strong>≥ 30</strong> Obese</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card hc-card h-100">
-              <div class="card-body text-center">
-                <i class="fas fa-heart-broken fa-3x text-danger mb-3"></i>
-                <h5 class="card-title">Heart Risk</h5>
-                <p class="lead mb-4">Higher BMI increases cardiovascular risk. Our AI assessment gives personalized insights.</p>
-                <a href="{{ url_for('index') }}" class="btn btn-outline-danger">Start Assessment</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-{% endblock %}
-{% block scripts %}
-<script>
-  // Form validation
-  (function() {
-    'use strict'
-    var forms = document.querySelectorAll('.needs-validation')
-    Array.prototype.slice.call(forms).forEach(function(form) {
-      form.addEventListener('submit', function(event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-        form.classList.add('was-validated')
-      }, false)
-    })
-  })()
-</script>
+    {% endif %}
+
+</div>
+
 {% endblock %}
 
