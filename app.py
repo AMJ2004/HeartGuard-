@@ -40,7 +40,7 @@ def index():
 
 @app.route("/home")
 def home():
-    return redirect(url_for('index'))
+    return render_template("checkup.html")
 
 @app.route("/about")
 def about():
@@ -60,6 +60,10 @@ def sleep():
 
 @app.route("/quit_smoking")
 def quit_smoking():
+    return render_template("QuitSmoking.html")
+
+@app.route("/QuitSmoking")
+def QuitSmoking():
     return render_template("QuitSmoking.html")
 
 @app.route("/diet_recommendations", methods=["POST"])
@@ -145,7 +149,6 @@ def result():
             "diabetes": diabetes,
             "BPMeds": BPMeds,
         }
-        session["user_data"] = user_data
 
         # Build feature array in correct order
         # ['sysBP','glucose','age','totChol','diaBP','prevalentHyp','diabetes','male','BPMeds','BMI']
@@ -179,15 +182,56 @@ def result():
 
         session["prediction"] = prediction
 
-        return render_template("analysis.html",
-                               prediction=prediction,
-                               bmi=bmi)
+        # Include prediction in user_data for diet recommender
+        user_data["prediction"] = prediction
+        session["user_data"] = user_data
+
+        # Helper strings for templates
+        gender_str = "Male" if male == 1 else "Female"
+        p_str = "Yes" if prevalentHyp == 1 else "No"
+        b_str = "Yes" if BPMeds == 1 else "No"
+        d_str = "Yes" if diabetes == 1 else "No"
+
+        if prediction == 1:
+            return render_template("heartdisease_detected.html",
+                                   age=age,
+                                   gender=gender_str,
+                                   bmi=bmi,
+                                   sysBP=sysBP,
+                                   diaBP=diaBP,
+                                   glucose=glucose,
+                                   totCHol=totChol,
+                                   p=p_str,
+                                   b=b_str,
+                                   d=d_str,
+                                   feature_rows=[],
+                                   high_flags=[],
+                                   diet_restrictions=[])
+        else:
+            return render_template("nodisease.html",
+                                   age=age,
+                                   gender_str=gender_str,
+                                   bmi=bmi,
+                                   sysBP=sysBP,
+                                   diaBP=diaBP,
+                                   glucose=glucose,
+                                   totChol=totChol,
+                                   p=p_str,
+                                   b=b_str,
+                                   d=d_str,
+                                   feature_rows=[],
+                                   chart_uri="",
+                                   diet_restrictions=[])
 
     except Exception as e:
         return f"Error: {str(e)}"
 
 @app.route("/diet")
 def diet():
+    return render_template("diet.html")
+
+@app.route("/diet_results")
+def diet_results():
     try:
         user_data = session.get("user_data")
 
