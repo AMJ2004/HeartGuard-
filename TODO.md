@@ -1,11 +1,12 @@
-# Fix Flask BuildError & Stabilize App
+# Rebuild UI and Data Flow
 
-- [x] Analyze root cause and broken endpoints
-- [x] Edit `app.py` — add missing routes (`home`, `about`, `stress`, `fitness`, `sleep`, `quit_smoking`, `diet_recommendations`) and remove `/home` from `index()`
-- [x] Edit `templates/base.html` — fix navbar AI Assessment link, fix bare `url_for('quit_smoking')` in footer
-- [x] Edit `templates/heart.html` — fix bare `url_for('quit_smoking')` in Smart Quit Programs card
-- [x] Edit `templates/heartdisease.html` — fix raw `url_for('quit_smoking')` text
-- [x] Fix `templates/assessment.html` Jinja2 syntax error (`endblock scripts`)
-- [x] Run local Flask test
-- [x] Git commit & push
+- [x] Replace analysis.html
+- [x] Replace bmi.html
+- [x] Replace heart.html form
+- [x] Replace diet_results.html
+- [x] Verify static/images/food.jpg exists
+- [x] Remove wrong loops on prediction
+- [x] Fix broken url_for in nodisease.html
+- [ ] Run route tests
+- [ ] Git commit & push
 
