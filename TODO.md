@@ -1,12 +1,9 @@
-# Rebuild UI and Data Flow
+# Backend Fixes - Complete
 
-- [x] Replace analysis.html
-- [x] Replace bmi.html
-- [x] Replace heart.html form
-- [x] Replace diet_results.html
-- [x] Verify static/images/food.jpg exists
-- [x] Remove wrong loops on prediction
-- [x] Fix broken url_for in nodisease.html
-- [x] Run route tests
-- [x] Git commit & push
+- [x] Fix scaler initialization in app.py
+- [x] Fix /result route: safe input collection, dual form support, feature dict, session storage
+- [x] Fix /result route: correct model feature order and scaler usage
+- [x] Fix /diet route: redirect on missing session instead of fallback data
+- [x] Run test_routes.py
+- [x] Git commit and push
 

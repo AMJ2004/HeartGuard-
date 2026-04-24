@@ -96,34 +96,78 @@ def bmi():
 def result():
     try:
         # Collect inputs safely
-        age = int(request.form.get("age", 45))
-        gender = int(request.form.get("gender", 0))
-        sysBP = float(request.form.get("sysBP", 120))
-        diaBP = float(request.form.get("diaBP", 80))
-        glucose = float(request.form.get("glucose", 100))
-        totChol = float(request.form.get("totChol", 200))
-
-        # BMI from session
+        age = int(request.form.get("age", 0))
+        sysBP = float(request.form.get("sysBP", 0))
+        diaBP = float(request.form.get("diaBP", 0))
+        glucose = float(request.form.get("glucose", 0))
+        totChol = float(request.form.get("totChol", 0))
         bmi = float(session.get("bmi", 0))
-        if bmi <= 0:
-            return redirect(url_for("bmi"))
 
-        # Derived features for the 10-feature model
-        # ['sysBP','glucose','age','totChol','diaBP','prevalentHyp','diabetes','male','BPMeds','BMI']
-        prevalentHyp = 1 if sysBP >= 140 else 0
-        diabetes = 1 if glucose >= 126 else 0
-        male = gender
-        BPMeds = 0  # Not collected in form; default to 0
+        # Support both 'gender' (heart.html / assessment.html) and 'male' (home.html)
+        gender_val = request.form.get("gender")
+        male_val = request.form.get("male")
+        if male_val is not None:
+            male = int(male_val)
+        elif gender_val is not None:
+            male = int(gender_val)
+        else:
+            male = 1
+
+        # Read derived features from form if present (home.html), else derive
+        prevalentHyp_val = request.form.get("prevalentHyp")
+        if prevalentHyp_val is not None:
+            prevalentHyp = int(prevalentHyp_val)
+        else:
+            prevalentHyp = 1 if sysBP > 140 else 0
+
+        diabetes_val = request.form.get("diabetes")
+        if diabetes_val is not None:
+            diabetes = int(diabetes_val)
+        else:
+            diabetes = 1 if glucose > 126 else 0
+
+        bpmeds_val = request.form.get("BPMeds")
+        if bpmeds_val is not None:
+            BPMeds = int(bpmeds_val)
+        else:
+            BPMeds = 0
+
+        # Build FULL feature dict
+        user_data = {
+            "age": age,
+            "sysBP": sysBP,
+            "diaBP": diaBP,
+            "glucose": glucose,
+            "totChol": totChol,
+            "bmi": bmi,
+            "male": male,
+            "prevalentHyp": prevalentHyp,
+            "diabetes": diabetes,
+            "BPMeds": BPMeds,
+        }
+        session["user_data"] = user_data
 
         # Build feature array in correct order
-        data = np.array([[sysBP, glucose, age, totChol, diaBP, prevalentHyp, diabetes, male, BPMeds, bmi]])
+        # ['sysBP','glucose','age','totChol','diaBP','prevalentHyp','diabetes','male','BPMeds','BMI']
+        data = np.array([[
+            user_data["sysBP"],
+            user_data["glucose"],
+            user_data["age"],
+            user_data["totChol"],
+            user_data["diaBP"],
+            user_data["prevalentHyp"],
+            user_data["diabetes"],
+            user_data["male"],
+            user_data["BPMeds"],
+            user_data["bmi"]
+        ]])
 
         # Predict with scaler if available
         if model:
             if scaler_available and scaler:
                 try:
-                    X_scaled = scaler.transform(data)
-                    prediction = int(model.predict(X_scaled)[0])
+                    data_scaled = scaler.transform(data)
+                    prediction = int(model.predict(data_scaled)[0])
                 except Exception as e:
                     print(f"Scaler failed: {e}, falling back to raw features")
                     prediction = int(model.predict(data)[0])
@@ -133,21 +177,6 @@ def result():
             # Fallback heuristic
             prediction = 1 if (sysBP > 140 or totChol > 240 or bmi > 30 or age > 60) else 0
 
-        # Store in session
-        user_data = {
-            "age": age,
-            "gender": gender,
-            "male": male,
-            "sysBP": sysBP,
-            "diaBP": diaBP,
-            "glucose": glucose,
-            "totChol": totChol,
-            "bmi": bmi,
-            "prevalentHyp": prevalentHyp,
-            "diabetes": diabetes,
-            "BPMeds": BPMeds,
-        }
-        session["user_data"] = user_data
         session["prediction"] = prediction
 
         return render_template("analysis.html",
@@ -161,29 +190,23 @@ def result():
 def diet():
     try:
         user_data = session.get("user_data")
-        if not user_data:
-            # Fallback if session expired
-            bmi = float(session.get("bmi", 22))
-            prediction = int(session.get("prediction", 0))
-            user_data = {"bmi": bmi, "prediction": prediction, "sysBP": 120, "glucose": 100, "totChol": 200}
 
-        # Load dataset and generate recipes
+        if not user_data:
+            return redirect(url_for("index"))
+
         df = load_dataset()
         recipes_raw = recommend_recipes(df, user_data)
         recipes = to_recipe_output(recipes_raw)
 
-        # Personalize diet plan
         diet_plan = personalize_diet(user_data)
 
         return render_template("diet_results.html",
                                recipes=recipes,
-                               diet_plan=diet_plan,
-                               bmi=user_data.get("bmi", 22),
-                               risk=user_data.get("prediction", 0))
+                               diet_plan=diet_plan)
 
     except Exception as e:
-        print(f"Diet route error: {e}")
-        return redirect(url_for("index"))
+        return str(e)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
