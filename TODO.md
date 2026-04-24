@@ -31,14 +31,14 @@
 - [x] Delete templates/Overweight.html (unused)
 
 ## Step 7: Test Flow
-- [ ] Homepage loads
-- [ ] AI Assessment opens
-- [ ] Form submits
-- [ ] Result shows
-- [ ] Diet page works
+- [x] Homepage loads
+- [x] AI Assessment opens
+- [x] Form submits
+- [x] Result shows
+- [x] Diet page works
 
 ## Step 8: Commit
-- [ ] git add .
-- [ ] git commit -m "Fixed routes, template errors, and prediction flow"
-- [ ] git push origin main
+- [x] git add .
+- [x] git commit -m "Fixed routes, template errors, and prediction flow"
+- [x] git push origin main
 
