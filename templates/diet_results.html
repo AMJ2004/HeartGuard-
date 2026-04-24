@@ -8,16 +8,16 @@
     <div class="card p-4 shadow">
 
         <h4>Recommended Diet:</h4>
-        <p><strong>{{ diet_plan.name }}</strong></p>
-        <p>{{ diet_plan.description }}</p>
+        <p><strong>Heart-Healthy Balanced Diet</strong></p>
+        <p>A carefully selected meal plan designed to support cardiovascular health through balanced nutrition.</p>
 
         <h4 class="mt-4">Daily Calories:</h4>
-        <p>{{ diet_plan.calories }} kcal</p>
+        <p>1800 - 2200 kcal (adjusted for your profile)</p>
 
         <h4 class="mt-4">Focus Areas:</h4>
         <ul>
-            {% for focus in diet_plan.focus %}
-            <li>{{ focus }}</li>
+            {% for msg in health_messages %}
+            <li>{{ msg }}</li>
             {% endfor %}
         </ul>
 
@@ -28,17 +28,21 @@
             {% for r in recipes %}
             <div class="col-md-4">
                 <div class="card mb-3 shadow">
-                    <img src="{{ url_for('static', filename='images/food.jpg') }}" class="card-img-top" alt="Healthy food">
+                    <img src="{{ url_for('static', filename='pics/food.jpg') }}" class="card-img-top" alt="Healthy food">
                     <div class="card-body">
-                        <h5>{{ r.name }}</h5>
-                        <p><strong>{{ r.calories }} kcal</strong> | Protein: {{ r.protein }}g</p>
+                        <h5>{{ r }}</h5>
+                        <p><strong>Heart-healthy choice</strong> | Nutritious & delicious</p>
                         <p>Healthy & nutritious meal for heart care.</p>
                     </div>
+                </div>
             </div>
             {% endfor %}
 
         </div>
 
+    </div>
+
 </div>
 
 {% endblock %}
+

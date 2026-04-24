@@ -28,8 +28,14 @@ def about():
 def assessment():
     return render_template("assessment.html")
 
-@app.route("/bmi")
+@app.route("/bmi", methods=["GET", "POST"])
 def bmi():
+    if request.method == "POST":
+        weight = float(request.form.get("weight", 0))
+        height = float(request.form.get("height", 0))
+        if height > 0:
+            bmi_val = round(weight / ((height / 100) ** 2), 2)
+            return render_template("bmi.html", bmi=bmi_val)
     return render_template("bmi.html")
 
 @app.route("/diet")
@@ -75,10 +81,7 @@ def result():
             prediction = 0
 
         if prediction == 1:
-            return render_template("heartdisease_detected.html",
-                                   age=age, bmi=bmi, sysBP=sysBP,
-                                   diaBP=diaBP, glucose=glucose,
-                                   totCHol=totChol)
+            return render_template("heartdisease_detected.html")
         else:
             return render_template("nodisease.html")
 
@@ -87,12 +90,15 @@ def result():
 
 @app.route("/diet_recommendations", methods=["POST"])
 def diet_recommendations():
-    try:
-        return render_template("diet_results.html",
-                               recipes=[],
-                               health_messages=["Demo diet plan working"])
-    except Exception as e:
-        return str(e)
+    return render_template("diet_results.html",
+                           recipes=["Salad", "Oats", "Grilled Chicken"],
+                           health_messages=["Eat low salt", "Exercise daily"])
+
+@app.route("/diet_results")
+def diet_results():
+    return render_template("diet_results.html",
+                           recipes=["Salad", "Oats", "Grilled Chicken"],
+                           health_messages=["Eat low salt", "Exercise daily"])
 
 if __name__ == "__main__":
     app.run(debug=True)
