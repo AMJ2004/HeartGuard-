@@ -27,4 +27,16 @@ for route in routes:
     if resp.status_code == 500:
         print(f"    Traceback: {resp.data.decode('utf-8')}")
 
+# Test result POST flow
+print("\nEnd-to-end Test (POST /result -> analysis.html):")
+with client.session_transaction() as sess:
+    sess['bmi'] = 24.5
+resp = client.post('/result', data={
+    'age': 45, 'gender': 1, 'sysBP': 120, 'diaBP': 80,
+    'glucose': 100, 'totChol': 200
+})
+print(f"  POST /result: {'OK' if resp.status_code == 200 else f'FAIL({resp.status_code})'}")
+if resp.status_code == 500:
+    print(f"    Traceback: {resp.data.decode('utf-8')[:800]}")
+
 

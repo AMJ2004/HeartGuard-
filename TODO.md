@@ -7,5 +7,5 @@
 - [x] Edit `templates/heartdisease.html` — fix raw `url_for('quit_smoking')` text
 - [x] Fix `templates/assessment.html` Jinja2 syntax error (`endblock scripts`)
 - [x] Run local Flask test
-- [ ] Git commit & push
+- [x] Git commit & push
 
