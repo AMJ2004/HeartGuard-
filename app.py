@@ -33,17 +33,13 @@ def load_scaler():
 def index():
     return render_template("heart.html")
 
-@app.route("/home")
-def home():
-    return render_template("checkup.html")
-
 @app.route("/about")
 def about():
     return render_template("about.html")
 
 @app.route("/assessment")
 def assessment():
-    return render_template("assessment.html")
+    return render_template("checkup.html")
 
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi():
@@ -56,7 +52,7 @@ def bmi():
     return render_template("bmi.html")
 
 @app.route("/diet")
-def diet():
+def diet_preferences():
     return render_template("diet_preferences.html")
 
 @app.route("/fitness")
