@@ -1,16 +1,11 @@
-# TODO: Fix Flask Project
+# Fix Flask Project - TODO
 
-- [x] Step 1: Fix app.py routes (/result, /diet_recommendations, /bmi POST)
-- [x] Step 2: Fix image paths in base.html
-- [x] Step 3: Fix image paths in about.html
-- [x] Step 4: Fix image paths in fitness.html
-- [x] Step 5: Fix image paths in sleep.html
-- [x] Step 6: Fix image paths in stress.html
-- [x] Step 7: Fix image paths in QuitSmoking.html
-- [x] Step 8: Fix image paths in heartdisease_detected.html
-- [x] Step 9: Fix image paths in nodisease.html
-- [x] Step 10: Fix image paths in diet_results.html
-- [x] Step 11: Fix image paths in checkup.html
-- [x] Step 12: Fix image paths in diet.html
-- [ ] Step 13: Test app and push to git
+## Plan
+- [x] 1. Create TODO.md
+- [x] 2. Fix `app.py` — `/result` route passes all template variables (NO 500 ERROR)
+- [x] 3. Fix `app.py` — `/diet_recommendations` route returns improved data
+- [x] 4. Fix `templates/base.html` — navbar AI Assessment link → `url_for('home')`
+- [x] 5. Fix `templates/checkup.html` — "Start AI Assessment" button → `url_for('assessment')`
+- [x] 6. Fix `templates/diet_results.html` — conditionally display `diet_plan`
+- [ ] 7. Test flow & git push
 

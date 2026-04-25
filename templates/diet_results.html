@@ -14,6 +14,11 @@
         <h4 class="mt-4">Daily Calories:</h4>
         <p>1800 - 2200 kcal (adjusted for your profile)</p>
 
+        {% if diet_plan %}
+        <h4 class="mt-4">Diet Plan:</h4>
+        <p><strong>{{ diet_plan }}</strong></p>
+        {% endif %}
+
         <h4 class="mt-4">Focus Areas:</h4>
         <ul>
             {% for msg in health_messages %}

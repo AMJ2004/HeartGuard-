@@ -69,21 +69,33 @@ def result():
         diaBP = float(request.form.get("diaBP", 0))
         glucose = float(request.form.get("glucose", 0))
         age = int(request.form.get("age", 0))
-        bmi = float(request.form.get("bmi", 0))
+        bmi_val = float(request.form.get("bmi", 0))
         totChol = float(request.form.get("totChol", 0))
+        gender = request.form.get("gender", "0")
+
+        gender_str = "Male" if gender == "1" else "Female"
+        p = "Yes" if sysBP > 140 or diaBP > 90 else "No"
+        b = "No"
+        d = "Yes" if glucose > 126 else "No"
 
         model = load_model()
 
         if model:
-            data = np.array([[sysBP, glucose, age, totChol, diaBP, 0, 0, 1, 0, bmi]])
+            data = np.array([[sysBP, glucose, age, totChol, diaBP, 0, 0, 1, 0, bmi_val]])
             prediction = int(model.predict(data)[0])
         else:
             prediction = 0
 
         if prediction == 1:
-            return render_template("heartdisease_detected.html")
+            return render_template("heartdisease_detected.html",
+                                   age=age, gender=gender_str, bmi=bmi_val,
+                                   sysBP=sysBP, diaBP=diaBP, glucose=glucose,
+                                   totCHol=totChol, p=p, b=b, d=d)
         else:
-            return render_template("nodisease.html")
+            return render_template("nodisease.html",
+                                   age=age, gender_str=gender_str, bmi=bmi_val,
+                                   sysBP=sysBP, diaBP=diaBP, glucose=glucose,
+                                   totChol=totChol, p=p, b=b, d=d)
 
     except Exception as e:
         return str(e)
@@ -91,8 +103,13 @@ def result():
 @app.route("/diet_recommendations", methods=["POST"])
 def diet_recommendations():
     return render_template("diet_results.html",
-                           recipes=["Salad", "Oats", "Grilled Chicken"],
-                           health_messages=["Eat low salt", "Exercise daily"])
+                           recipes=["Oats", "Green Salad", "Grilled Fish"],
+                           health_messages=[
+                               "Reduce salt intake",
+                               "Exercise daily",
+                               "Avoid fried food"
+                           ],
+                           diet_plan="Heart-friendly low cholesterol diet")
 
 @app.route("/diet_results")
 def diet_results():
