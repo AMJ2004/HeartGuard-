@@ -7,5 +7,8 @@
 - [x] 4. Fix `templates/base.html` — navbar AI Assessment link → `url_for('home')`
 - [x] 5. Fix `templates/checkup.html` — "Start AI Assessment" button → `url_for('assessment')`
 - [x] 6. Fix `templates/diet_results.html` — conditionally display `diet_plan`
-- [ ] 7. Test flow & git push
+- [x] 7. Test flow & git push
+- [x] 8. Fix ML prediction using probability threshold + scaler
+- [x] 9. Show probability in result templates
+- [x] 10. Commit & push ML fixes
 

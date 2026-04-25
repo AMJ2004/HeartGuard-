@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import numpy as np
 import pickle
+import json
 
 app = Flask(__name__)
 
@@ -10,6 +11,22 @@ def load_model():
             return pickle.load(f)
     except Exception as e:
         print(f"Model not found: {e}, using fallback")
+        return None
+
+def load_threshold():
+    try:
+        with open("threshold.json") as f:
+            return json.load(f)["threshold"]
+    except Exception as e:
+        print(f"Threshold not found: {e}, using default 0.5")
+        return 0.5
+
+def load_scaler():
+    try:
+        with open("minmax_scaler.pkl", "rb") as f:
+            return pickle.load(f)
+    except Exception as e:
+        print(f"Scaler not found: {e}, using fallback")
         return None
 
 @app.route("/")
@@ -79,23 +96,36 @@ def result():
         d = "Yes" if glucose > 126 else "No"
 
         model = load_model()
+        scaler = load_scaler()
+        threshold = load_threshold()
 
-        if model:
-            data = np.array([[sysBP, glucose, age, totChol, diaBP, 0, 0, 1, 0, bmi_val]])
-            prediction = int(model.predict(data)[0])
+        data = np.array([[sysBP, glucose, age, totChol, diaBP, 0, 0, 1, 0, bmi_val]])
+
+        if model and scaler:
+            data_scaled = scaler.transform(data)
+            prob = model.predict_proba(data_scaled)[0][1]
+            prediction = 1 if prob >= threshold else 0
+            probability = round(prob * 100, 2)
+        elif model:
+            prob = model.predict_proba(data)[0][1]
+            prediction = 1 if prob >= threshold else 0
+            probability = round(prob * 100, 2)
         else:
             prediction = 0
+            probability = 0.0
 
         if prediction == 1:
             return render_template("heartdisease_detected.html",
                                    age=age, gender=gender_str, bmi=bmi_val,
                                    sysBP=sysBP, diaBP=diaBP, glucose=glucose,
-                                   totCHol=totChol, p=p, b=b, d=d)
+                                   totCHol=totChol, p=p, b=b, d=d,
+                                   prediction=prediction, probability=probability)
         else:
             return render_template("nodisease.html",
                                    age=age, gender_str=gender_str, bmi=bmi_val,
                                    sysBP=sysBP, diaBP=diaBP, glucose=glucose,
-                                   totChol=totChol, p=p, b=b, d=d)
+                                   totChol=totChol, p=p, b=b, d=d,
+                                   prediction=prediction, probability=probability)
 
     except Exception as e:
         return str(e)
