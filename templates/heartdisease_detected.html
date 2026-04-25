@@ -17,6 +17,11 @@
       <h4 class="alert-heading">Heart disease risk detected</h4>
       <p>Based on your inputs, you are at risk of developing heart disease in the next ten years. Please consult your doctor or a cardiologist.</p>
       <p><strong>Risk Probability: {{ probability }}%</strong></p>
+      {% if prediction == 1 %}
+         <h3 style="color:red;">High Risk</h3>
+      {% else %}
+         <h3 style="color:green;">Low Risk</h3>
+      {% endif %}
       <hr>
       <p class="mb-0">We can now generate a personalized heart-healthy diet plan tailored to your dietary preferences and health profile.</p>
     </div>

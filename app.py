@@ -90,6 +90,9 @@ def result():
         totChol = float(request.form.get("totChol", 0))
         gender = request.form.get("gender", "0")
 
+        if bmi_val == 0:
+            return "Please enter BMI"
+
         gender_str = "Male" if gender == "1" else "Female"
         p = "Yes" if sysBP > 140 or diaBP > 90 else "No"
         b = "No"
@@ -99,7 +102,25 @@ def result():
         scaler = load_scaler()
         threshold = load_threshold()
 
-        data = np.array([[sysBP, glucose, age, totChol, diaBP, 0, 0, 1, 0, bmi_val]])
+        # Derived features
+        prevalentHyp = 1 if sysBP > 140 else 0
+        diabetes = 1 if glucose > 126 else 0
+        male = 1 if gender == "1" else 0
+        BPMeds = 0
+
+        # EXACT feature order required by the model
+        data = np.array([[
+            sysBP,
+            glucose,
+            age,
+            totChol,
+            diaBP,
+            prevalentHyp,
+            diabetes,
+            male,
+            BPMeds,
+            bmi_val
+        ]])
 
         if model and scaler:
             data_scaled = scaler.transform(data)
